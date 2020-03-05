@@ -1,0 +1,22 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoViewPage
+
+@{
+	Layout = "_Layout.cshtml";
+}
+
+	<div class="container">
+		@Model.Value("title")
+		<br />
+		@ViewBag.SetValue.Value <br />
+
+		@ViewBag.SetValueUpdated.Value<br />
+
+		@ViewBag.Updated.Value<br />
+
+		@ViewBag.SetValue2.Value<br />
+
+		@ViewBag.GetValue<br />
+
+	</div>
+
+

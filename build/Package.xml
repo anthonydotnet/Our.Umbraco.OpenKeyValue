@@ -1,0 +1,33 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<umbPackage>
+	<info>
+		<package>
+			<name>Our.Umbraco.KeyValueService</name>
+			<version>1.0.0</version>
+			<license url="http://opensource.org/licenses/MIT">MIT License</license>
+			<url>https://github.com/anthonydotnet/Our.Umbraco.KeyValueService</url>
+			<requirements type="Strict">
+				<major>8</major>
+				<minor>1</minor>
+				<patch>0</patch>
+			</requirements>
+		</package>
+		<author>
+			<name>Anthony Dang</name>
+			<website>https://anthonydotnet.blogspot.com</website>
+		</author>
+		<readme>
+			<![CDATA[]]>
+		</readme>
+	</info>
+	<DocumentTypes />
+	<Templates />
+	<Stylesheets />
+	<Macros />
+	<DictionaryItems />
+	<Languages />
+	<DataTypes />
+	<Actions/>
+	<control />
+	<files />
+</umbPackage>
