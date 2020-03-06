@@ -9,10 +9,11 @@ namespace Our.Umbraco.OpenKeyValue.Core.Repositories
 	public interface IOpenKeyValueRepository
 	{
 		KeyValue Get(string key);
-		KeyValue Create(KeyValue poco);
 		IEnumerable<KeyValue> GetAll();
+		KeyValue Create(KeyValue poco);
 		KeyValue Update(KeyValue poco);
-		void Delete(string key);
+		int Delete(string key);
+		bool Exists(string key);
 	}
 
 
@@ -25,7 +26,7 @@ namespace Our.Umbraco.OpenKeyValue.Core.Repositories
             _scopeProvider = scopeProvider;
         }
 
-        public IEnumerable<KeyValue> GetAll()
+		public IEnumerable<KeyValue> GetAll()
         {
 			using (var scope = _scopeProvider.CreateScope())
 			{
@@ -36,7 +37,30 @@ namespace Our.Umbraco.OpenKeyValue.Core.Repositories
 			}
         }
 
-        public KeyValue Create(KeyValue poco)
+		public KeyValue Get(string key)
+		{
+			using (var scope = _scopeProvider.CreateScope())
+			{
+				var db = scope.Database;
+				var poco = db.Query<KeyValue>("SELECT * FROM umbracoKeyValue WHERE [key] = @key", new { key }).FirstOrDefault();
+
+				return poco;
+			}
+		}
+
+		public bool Exists(string key)
+		{
+			using (var scope = _scopeProvider.CreateScope())
+			{
+				var db = scope.Database;
+				var value = db.ExecuteScalar<int>("SELECT COUNT(*) FROM umbracoKeyValue WHERE [key] = @key", new { key });
+
+				return value > 0;
+			}
+		}
+
+
+		public KeyValue Create(KeyValue poco)
         {
             var idObj = new object();
             using (var scope = _scopeProvider.CreateScope())
@@ -51,35 +75,12 @@ namespace Our.Umbraco.OpenKeyValue.Core.Repositories
         }
 
 
-		public void Save(KeyValue entity)
+		public void Insert(KeyValue entity)
 		{
 			using (var scope = _scopeProvider.CreateScope())
 			{
 				scope.Database.Insert(entity);
 				scope.Complete();
-			}
-		}
-
-		public void Delete(string key)
-		{
-			using (var scope = _scopeProvider.CreateScope())
-			{
-				var poco = Get(key);
-
-				scope.Database.Delete(poco);
-				scope.Complete();
-			}
-		}
-
-		public KeyValue Get(string key)
-		{
-			using (var scope = _scopeProvider.CreateScope())
-			{
-				var db = scope.Database;
-				//var poco = db.Query<KeyValue>("SELECT * FROM umbracoKeyValue WHERE key = '@0'", key).Single();
-				var poco = db.Query<KeyValue>("SELECT * FROM umbracoKeyValue WHERE [key] = @key", new { key }).FirstOrDefault();
-
-				return poco;
 			}
 		}
 
@@ -94,6 +95,17 @@ namespace Our.Umbraco.OpenKeyValue.Core.Repositories
 			var item = Get(poco.Key);
 
 			return item;
+		}
+
+		public int Delete(string key)
+		{
+			using (var scope = _scopeProvider.CreateScope())
+			{
+				var result = scope.Database.Delete<KeyValue>("WHERE [key] = @key", new { key });
+				scope.Complete();
+
+				return result;
+			}
 		}
 	}
 }

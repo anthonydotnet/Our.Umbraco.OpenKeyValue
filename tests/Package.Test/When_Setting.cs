@@ -4,6 +4,7 @@ using Moq;
 using Our.Umbraco.OpenKeyValue.Core.Repositories;
 using Our.Umbraco.OpenKeyValue.Core.Services;
 using Our.Umbraco.OpenKeyValue.Core.Models.Pocos;
+using Our.Umbraco.OpenKeyValue.Core.Builders;
 
 namespace Package.Test
 {
@@ -41,7 +42,7 @@ namespace Package.Test
 			
 
 			// run
-			var result = _service.SetValue(key, value);
+			var result = _service.Set(key, value);
 
 			// assert
 			_builderMock.Verify(x => x.Build(key, value));
@@ -60,7 +61,7 @@ namespace Package.Test
 			_repoMock.Setup(x => x.Update(It.IsAny<KeyValue>())).Returns(_existingPoco);
 
 			// run
-			var result = _service.SetValue(key, value);
+			var result = _service.Set(key, value);
 
 			// assert
 			Assert.Equal(value, _existingPoco.Value);
@@ -80,7 +81,7 @@ namespace Package.Test
 			_repoMock.Setup(x => x.Update(It.IsAny<KeyValue>())).Returns(_existingPoco);
 
 			// run
-			var result = _service.UpdateValue(key, value);
+			var result = _service.Set(key, value);
 
 			// assert
 			Assert.Equal(value, _existingPoco.Value);

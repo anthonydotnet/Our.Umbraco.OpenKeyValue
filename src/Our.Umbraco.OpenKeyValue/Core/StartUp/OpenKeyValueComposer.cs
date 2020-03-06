@@ -1,6 +1,7 @@
 ﻿using Umbraco.Core.Composing;
 using Our.Umbraco.OpenKeyValue.Core.Services;
 using Our.Umbraco.OpenKeyValue.Core.Repositories;
+using Our.Umbraco.OpenKeyValue.Core.Builders;
 
 namespace Our.Umbraco.OpenKeyValue.Core.StartUp
 {

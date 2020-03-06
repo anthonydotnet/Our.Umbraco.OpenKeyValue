@@ -7,15 +7,16 @@
 	<div class="container">
 		@Model.Value("title")
 		<br />
-		@ViewBag.SetValue.Value <br />
 
-		@ViewBag.SetValueUpdated.Value<br />
+		Inserted: @ViewBag.SetItem.Key  | @ViewBag.SetItem.Value <br />
 
-		@ViewBag.Updated.Value<br />
+		Exists: @ViewBag.Exists <br />
 
-		@ViewBag.SetValue2.Value<br />
+		Retrieved: @ViewBag.RetrievedItem.Key  | @ViewBag.RetrievedItem.Value <br />
 
-		@ViewBag.GetValue<br />
+		Updated: @ViewBag.UpdatedItem.Key  | @ViewBag.UpdatedItem.Value<br />
+
+		Deleted: @(ViewBag.DeletedItem == null ? "Does not exist" : "Oh no this deletion failed!") <br />
 
 	</div>
 

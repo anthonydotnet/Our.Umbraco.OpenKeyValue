@@ -6,6 +6,7 @@ using Our.Umbraco.OpenKeyValue.Core.Services;
 using Our.Umbraco.OpenKeyValue.Core.Models.Pocos;
 using System.Collections.Generic;
 using System.Linq;
+using Our.Umbraco.OpenKeyValue.Core.Builders;
 
 namespace Package.Test
 {
@@ -35,18 +36,55 @@ namespace Package.Test
 		{
 			// setup
 			var key = "key";
-			var expected = _existingPoco.Value;
+			var expected = _existingPoco;
 
 			var createdPoco = new KeyValue();
 			_repoMock.Setup(x => x.Get(key)).Returns(_existingPoco);
 			
 			// run
-			var result = _service.GetValue(key);
+			var result = _service.Get(key);
 
 			// assert
-			Assert.Equal(expected, result);
+			Assert.Equal(expected.Key, result.Key);
+			Assert.Equal(expected.Value, result.Value);
 		}
 
+
+		[Fact]
+		public void Item_Exists()
+		{
+			// setup
+			var key = "key";
+			var expected = _existingPoco;
+
+			var createdPoco = new KeyValue();
+			_repoMock.Setup(x => x.Exists(key)).Returns(true);
+
+			// run
+			var result = _service.Exists(key);
+
+			// assert
+			Assert.True(result);
+			_repoMock.Verify(x => x.Exists(key));
+		}
+
+
+		[Fact]
+		public void NonExisting_Item_Is_Handled()
+		{
+			// setup
+			var key = "key";
+			var expected = _existingPoco.Value;
+
+			var createdPoco = new KeyValue();
+			_repoMock.Setup(x => x.Get(key));
+
+			// run
+			var result = _service.Get(key);
+
+			// assert
+			Assert.Null(result);
+		}
 
 		[Fact]
 		public void All_Values_Are_Retrieved()

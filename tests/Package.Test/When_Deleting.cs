@@ -4,6 +4,7 @@ using Moq;
 using Our.Umbraco.OpenKeyValue.Core.Repositories;
 using Our.Umbraco.OpenKeyValue.Core.Services;
 using Our.Umbraco.OpenKeyValue.Core.Models.Pocos;
+using Our.Umbraco.OpenKeyValue.Core.Builders;
 
 namespace Package.Test
 {

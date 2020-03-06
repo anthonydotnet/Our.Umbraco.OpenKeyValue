@@ -1,11 +1,7 @@
-﻿using Applicaion.Demo.Models;
-using Our.Umbraco.OpenKeyValue.Core.Models.Pocos;
-using Our.Umbraco.OpenKeyValue.Core.Services;
+﻿using Our.Umbraco.OpenKeyValue.Core.Services;
 using System;
-using System.Collections.Generic;
 using System.Web.Mvc;
 using Umbraco.Web.Models;
-using Umbraco.Web.WebApi;
 
 namespace Application.Demo.Controllers
 {
@@ -20,22 +16,34 @@ namespace Application.Demo.Controllers
 
 		public override ActionResult Index(ContentModel model)
 		{
-			int i = 3;
+			var key = $"{DateTime.UtcNow.Ticks}_key";
+			var value = "value";
 
-			ViewBag.SetValue = _service.SetValue($"key_{i}", $"value");
-			ViewBag.SetValueUpdated = _service.SetValue($"key_{i}", $"value_set_updated");
+			// insert
+			var item = _service.Set(key, value);
 
-			ViewBag.Updated = _service.UpdateValue($"key_{i}", $"value_updated");
+			// exists
+			bool exists = _service.Exists(key);
 
-			ViewBag.SetValue2 = _service.SetValue($"key_{i}_1000", $"value_1000");
-			
-			_service.Delete($"key_{i}_1000");
+			// get 
+			var retrievedItem = _service.Get(key);
 
-			ViewBag.GetValue = _service.GetValue($"key_{i}");
+			// update
+			var updatedItem = _service.Set(key, $"{value}_updated");
 
+			// delete
+			_service.Delete(key);
+
+			// get deleted item
+			var deletedItem = _service.Get(key);
+
+			ViewBag.SetItem = item;
+			ViewBag.Exists = exists;
+			ViewBag.RetrievedItem = retrievedItem;
+			ViewBag.UpdatedItem = updatedItem;
+			ViewBag.DeletedItem = deletedItem;
 
 			return base.Index(model);
 		}
-
 	}
 }

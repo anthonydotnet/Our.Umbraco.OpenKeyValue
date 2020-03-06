@@ -4,15 +4,16 @@ using System.Collections.Generic;
 using Our.Umbraco.OpenKeyValue.Core.Repositories;
 using Our.Umbraco.OpenKeyValue.Core.Extensions;
 using System.Linq;
+using Our.Umbraco.OpenKeyValue.Core.Builders;
 
 namespace Our.Umbraco.OpenKeyValue.Core.Services
 {
 	public interface IOpenKeyValueService
 	{
 		IEnumerable<KeyValueDto> GetAll();
-		string GetValue(string key);
-		KeyValueDto SetValue(string key, string value);
-		KeyValueDto UpdateValue(string key, string value);
+		KeyValueDto Get(string key);
+		KeyValueDto Set(string key, string value);
+		bool Exists(string key);
 		void Delete(string key);
 	}
 
@@ -35,40 +36,37 @@ namespace Our.Umbraco.OpenKeyValue.Core.Services
 			return pocos.Select(x => x.ToDto());
 		}
 
-		public string GetValue(string key)
+		public KeyValueDto Get(string key)
 		{
 			var poco = _repository.Get(key);
 
-			return poco.Value;
+			return poco?.ToDto();
 		}
 
-		public KeyValueDto SetValue(string key, string value)
+
+		public bool Exists(string key)
+		{
+			var value = _repository.Exists(key);
+
+			return value;
+		}
+
+		public KeyValueDto Set(string key, string value)
 		{
 			var poco = _repository.Get(key);
 
 			if (poco == null)
 			{
 				poco = _builder.Build(key, value);
-				
+
 				poco = _repository.Create(poco);
 			}
 			else
 			{
 				poco.Value = value;
-				poco.Updated = DateTime.Now;
+				poco.Updated = DateTime.UtcNow;
 				poco = _repository.Update(poco);
 			}
-
-			return poco.ToDto();
-		}
-
-		public KeyValueDto UpdateValue(string key, string value)
-		{
-			var poco = _repository.Get(key);
-
-			poco.Value = value;
-			poco.Updated = DateTime.Now;
-			poco = _repository.Update(poco);
 
 			return poco.ToDto();
 		}
@@ -76,26 +74,6 @@ namespace Our.Umbraco.OpenKeyValue.Core.Services
 		public void Delete(string key)
 		{
 			_repository.Delete(key);
-		}
-	}
-
-
-	public interface IKeyValuePocoBuilder
-	{
-		KeyValue Build(string key, string value);
-	}
-
-	public class KeyValuePocoBuilder: IKeyValuePocoBuilder
-	{ 
-		public KeyValue Build(string key, string value)
-		{
-			var poco = new KeyValue
-			{
-				Key = key,
-				Value = value,
-				Updated = DateTime.Now
-			};
-			return poco;
 		}
 	}
 }

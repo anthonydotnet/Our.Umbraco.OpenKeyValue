@@ -286,6 +286,7 @@
   <ItemGroup>
     <Compile Include="Core\Extensions\EntityExtensions.cs" />
     <Compile Include="Core\Models\DTOs\KeyValueDto.cs" />
+    <Compile Include="Core\Builders\KeyValuePocoBuilder.cs" />
     <Compile Include="Core\Services\OpenKeyValueService.cs" />
     <Compile Include="Core\Models\Pocos\KeyValue.cs" />
     <Compile Include="Core\StartUp\OpenKeyValueComposer.cs" />
