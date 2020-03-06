@@ -23,23 +23,17 @@ public HomeController(IOpenKeyValueService service)
 }
 ```
 
-
+Basic CRUD methods:
 ```
-// insert
 var item = _service.Set(key, value);
 
-// exists
 bool exists = _service.Exists(key);
 
-// get 
 var retrievedItem = _service.Get(key);
 
-// update
-var updatedItem = _service.Set(key, $"{value}_updated");
+var updatedItem = _service.Set(key, newValue");
 
-// delete
 _service.Delete(key);
-
 
 ```
 

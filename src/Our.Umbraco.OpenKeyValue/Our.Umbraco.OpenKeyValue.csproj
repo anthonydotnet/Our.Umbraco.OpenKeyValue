@@ -316,10 +316,8 @@
     <Error Condition="!Exists('..\packages\xunit.core.2.4.1\build\xunit.core.targets')" Text="$([System.String]::Format('$(ErrorText)', '..\packages\xunit.core.2.4.1\build\xunit.core.targets'))" />
   </Target>
   <PropertyGroup>
-    <PostBuildEvent>if $(ConfigurationName) == Debug (
-robocopy "$(ProjectDir)UI\App_Plugins" "$(SolutionDir)..\samples\Application.Demo\App_Plugins" /s 
-if %25errorlevel%25 LEQ 8 exit 0
-)</PostBuildEvent>
+    <PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="..\packages\xunit.core.2.4.1\build\xunit.core.targets" Condition="Exists('..\packages\xunit.core.2.4.1\build\xunit.core.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

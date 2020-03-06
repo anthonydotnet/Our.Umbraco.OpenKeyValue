@@ -166,3 +166,7 @@ build/msbuild.binlog
 
 samples/Application.Demo/App_Plugins/
 samples/Application.Demo/media/
+
+build/NugetBuild/
+build/Build/
+
