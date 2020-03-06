@@ -2,10 +2,10 @@
 <umbPackage>
 	<info>
 		<package>
-			<name>Our.Umbraco.KeyValueService</name>
+			<name>Our.Umbraco.OpenKeyValue</name>
 			<version>1.0.0</version>
 			<license url="http://opensource.org/licenses/MIT">MIT License</license>
-			<url>https://github.com/anthonydotnet/Our.Umbraco.KeyValueService</url>
+			<url>https://github.com/anthonydotnet/Our.Umbraco.OpenKeyValue</url>
 			<requirements type="Strict">
 				<major>8</major>
 				<minor>1</minor>
